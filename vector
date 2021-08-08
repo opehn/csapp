@@ -1,0 +1,44 @@
+#include <stdio.h>
+
+typedef struct 
+{
+	long len;
+	data_t *data;
+} vec_rec, *vec_ptr;
+
+vec_ptr new_vec(long len)
+{
+	vec_ptr result = (vec_ptr) malloc(sizeof(vec_rec));
+	data_t *data = NULL;
+	if (!result)
+		return NULL; /* 할당 실패시*/
+	result->len = len;
+	/* 배열 할당 */
+	if (len > 0)
+	{
+		data = (data_t *)calloc(len, sizeof(data_t));
+		if (!data) {
+			free((void *) result);
+			return NULL; /*할당 실패시*/
+		}
+	}
+	result->data = data;
+	return result;
+}
+/* 벡터 요소를 회수하고 dest에 저장?
+ * 범위 초과시 0리턴, 아니면 1 (성공했다면)
+ * /
+
+int get_vec_element(vec_ptr v, long index, data_t *dest)
+{
+	if (index < 0 || index >= v->len)
+		return 0;
+	*dest = v->data[index];
+	return 1;
+}
+
+/*벡터의 길이를 리턴한다*/
+long vex_length(vex_ptr v)
+{
+	return v->len;
+}
